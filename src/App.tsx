@@ -1,14 +1,10 @@
 import React, { useRef, useState } from "react";
 import {
   IonApp,
-  IonButton,
-  IonCard,
-  IonCardContent,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
-  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -17,7 +13,6 @@ import {
   IonToolbar,
   setupIonicReact,
 } from "@ionic/react";
-import { calculatorOutline, refreshOutline } from "ionicons/icons";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -36,6 +31,8 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
+import BmiControls from "./components/BmiControls";
+import BmiResult from "./components/BmiResult";
 
 setupIonicReact();
 
@@ -89,31 +86,8 @@ const App: React.FC = () => {
               </IonItem>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <IonCol className="ion-text-left">
-              <IonButton onClick={calculateBMI}>
-                <IonIcon slot="start" icon={calculatorOutline} />
-                Calculate
-              </IonButton>
-            </IonCol>
-            <IonCol className="ion-text-right">
-              <IonButton onClick={resetInputs}>
-                <IonIcon slot="start" icon={refreshOutline} />
-                Reset
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          {calculatedBmi! > 0 && (
-            <IonRow>
-              <IonCol>
-                <IonCard>
-                  <IonCardContent>
-                    <h2>{calculatedBmi}</h2>
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-            </IonRow>
-          )}
+          <BmiControls onCalculate={calculateBMI} onReset={resetInputs} />
+          {calculatedBmi! > 0 && <BmiResult bmi={calculatedBmi!} />}
         </IonGrid>
       </IonContent>
       <h2>This Works</h2>
