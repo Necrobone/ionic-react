@@ -11,7 +11,8 @@ const BmiResult: React.FC<BmiResultProps> = (props) => {
       <IonCol>
         <IonCard>
           <IonCardContent>
-            <h2>{props.bmi}</h2>
+            <h2>Your Body Mass Index</h2>
+            <h3 className="ion-text-center">{props.bmi.toFixed(2)}</h3>
           </IonCardContent>
         </IonCard>
       </IonCol>
