@@ -1,10 +1,10 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'ionic-react',
-  webDir: 'build',
-  bundledWebRuntime: false
+  appId: "com.necrosoftware.bmi-calculator",
+  appName: "BMI Calculator",
+  webDir: "build",
+  bundledWebRuntime: false,
 };
 
 export default config;
