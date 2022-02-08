@@ -49,7 +49,7 @@ const App: React.FC = () => (
           <Route path="/all-goals" exact>
             <AllGoals />
           </Route>
-          <Route path="/course-goals">
+          <Route path="/courses/:courseId">
             <CourseGoals />
           </Route>
           <Redirect to="/courses" />
