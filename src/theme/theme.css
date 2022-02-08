@@ -1,0 +1,5 @@
+:root {
+    --ion-toolbar-background: var(--ion-color-primary);
+    --ion-tab-bar-background: var(--ion-color-primary);
+    --ion-tab-bar-color-selected: var(--ion-color-secondary);
+}

@@ -4,12 +4,22 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
   IonTitle,
+  IonToggle,
   IonToolbar,
 } from "@ionic/react";
+import { moon } from "ionicons/icons";
 
 const AllGoals: React.FC = () => {
+  const toggleDarkModeHandler = () => {
+    document.body.classList.toggle("dark");
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -21,7 +31,17 @@ const AllGoals: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <h2>This Works - All Goals Page!</h2>
+        <IonList className="ion-margin-top">
+          <IonItem>
+            <IonIcon slot="start" icon={moon} />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle
+              slot="end"
+              name="darkMode"
+              onIonChange={toggleDarkModeHandler}
+            />
+          </IonItem>
+        </IonList>
       </IonContent>
     </IonPage>
   );
