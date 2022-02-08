@@ -9,15 +9,20 @@ interface BmiControlsProps {
 
 const BmiControls: React.FC<BmiControlsProps> = (props) => {
   return (
-    <IonRow>
-      <IonCol className="ion-text-left">
-        <IonButton onClick={props.onCalculate}>
+    <IonRow className="ion-margin-top">
+      <IonCol size="12" size-md="6" className="ion-text-center">
+        <IonButton
+          size="large"
+          expand="block"
+          color="secondary"
+          onClick={props.onCalculate}
+        >
           <IonIcon slot="start" icon={calculatorOutline} />
           Calculate
         </IonButton>
       </IonCol>
-      <IonCol className="ion-text-right">
-        <IonButton onClick={props.onReset}>
+      <IonCol size="12" size-md="6" className="ion-text-center">
+        <IonButton color="medium" onClick={props.onReset} fill="clear">
           <IonIcon slot="start" icon={refreshOutline} />
           Reset
         </IonButton>

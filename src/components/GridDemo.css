@@ -1,0 +1,11 @@
+ion-col {
+  border: 1px solid black;
+}
+
+#demo-grid {
+  height: 30rem;
+}
+
+#demo-grid ion-row {
+  height: 50%;
+}
