@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
-const AllGoals: React.FC = () => {
+const Filter: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -17,14 +17,14 @@ const AllGoals: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>All Goals</IonTitle>
+          <IonTitle>Filter</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <h2>This Works - All Goals Page!</h2>
+        <h2>The Filter page...</h2>
       </IonContent>
     </IonPage>
   );
 };
 
-export default AllGoals;
+export default Filter;
