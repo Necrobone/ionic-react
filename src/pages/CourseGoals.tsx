@@ -7,6 +7,9 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
   IonLabel,
   IonList,
   IonPage,
@@ -15,7 +18,7 @@ import {
 } from "@ionic/react";
 import { useParams } from "react-router";
 import { COURSE_DATA } from "./Courses";
-import { create } from "ionicons/icons";
+import { create, trash } from "ionicons/icons";
 
 interface CourseGoalsParams {
   courseId: string;
@@ -46,17 +49,21 @@ const CourseGoals: React.FC = () => {
         {course && (
           <IonList>
             {course.goals.map((goal) => (
-              <IonItem key={goal.id} button onClick={deleteItemHandler}>
-                <IonLabel>{goal.text}</IonLabel>
-                <IonButton
-                  fill="clear"
-                  color="dark"
-                  slot="end"
-                  onClick={editItemHandler}
-                >
-                  <IonIcon slot="icon-only" icon={create} />
-                </IonButton>
-              </IonItem>
+              <IonItemSliding key={goal.id}>
+                <IonItemOptions side="start">
+                  <IonItemOption onClick={deleteItemHandler} color="danger">
+                    <IonIcon slot="icon-only" icon={trash} />
+                  </IonItemOption>
+                </IonItemOptions>
+                <IonItem>
+                  <IonLabel>{goal.text}</IonLabel>
+                </IonItem>
+                <IonItemOptions side="end">
+                  <IonItemOption onClick={editItemHandler}>
+                    <IonIcon slot="icon-only" icon={create} />
+                  </IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
             ))}
           </IonList>
         )}
