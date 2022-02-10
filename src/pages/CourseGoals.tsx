@@ -17,6 +17,7 @@ import {
   IonList,
   IonPage,
   IonTitle,
+  IonToast,
   IonToolbar,
   isPlatform,
 } from "@ionic/react";
@@ -30,6 +31,7 @@ interface CourseGoalsParams {
 
 const CourseGoals: React.FC = () => {
   const [deleting, setDeleting] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const courseId = useParams<CourseGoalsParams>().courseId;
 
   const course = COURSE_DATA.find((c) => c.id === courseId);
@@ -40,6 +42,7 @@ const CourseGoals: React.FC = () => {
 
   const deleteGoalHandler = () => {
     setDeleting(false);
+    setToastMessage("Deleted Goal!");
   };
 
   const editItemHandler = (event: React.MouseEvent) => {
@@ -50,6 +53,14 @@ const CourseGoals: React.FC = () => {
 
   return (
     <Fragment>
+      <IonToast
+        isOpen={!!toastMessage}
+        message={toastMessage}
+        duration={2000}
+        onDidDismiss={() => {
+          setToastMessage("");
+        }}
+      />
       <IonAlert
         isOpen={deleting}
         header="Are you sure?"
