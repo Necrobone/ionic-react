@@ -1,9 +1,11 @@
 import React from "react";
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -13,6 +15,7 @@ import {
 } from "@ionic/react";
 import { useParams } from "react-router";
 import { COURSE_DATA } from "./Courses";
+import { create } from "ionicons/icons";
 
 interface CourseGoalsParams {
   courseId: string;
@@ -22,6 +25,12 @@ const CourseGoals: React.FC = () => {
   const courseId = useParams<CourseGoalsParams>().courseId;
 
   const course = COURSE_DATA.find((c) => c.id === courseId);
+
+  const deleteItemHandler = () => {};
+
+  const editItemHandler = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
 
   return (
     <IonPage>
@@ -37,8 +46,16 @@ const CourseGoals: React.FC = () => {
         {course && (
           <IonList>
             {course.goals.map((goal) => (
-              <IonItem key={goal.id}>
+              <IonItem key={goal.id} button onClick={deleteItemHandler}>
                 <IonLabel>{goal.text}</IonLabel>
+                <IonButton
+                  fill="clear"
+                  color="dark"
+                  slot="end"
+                  onClick={editItemHandler}
+                >
+                  <IonIcon slot="icon-only" icon={create} />
+                </IonButton>
               </IonItem>
             ))}
           </IonList>
