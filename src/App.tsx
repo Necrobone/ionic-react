@@ -79,7 +79,7 @@ const App: React.FC = () => (
         <Route path="/courses">
           <CourseTabs />
         </Route>
-        <Redirect path="/" to="/courses/list" exact />
+        <Redirect path="/" to="/courses/all-goals" exact />
       </IonRouterOutlet>
     </IonReactRouter>
     <h2>This Works!</h2>
