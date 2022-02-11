@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import {
   IonAlert,
   IonBackButton,
@@ -24,16 +24,26 @@ import {
 import { useParams } from "react-router";
 import { COURSE_DATA } from "./Courses";
 import { add, addOutline, create, trash } from "ionicons/icons";
+import EditModal from "../components/EditModal";
 
 interface CourseGoalsParams {
   courseId: string;
 }
 
+interface Goal {
+  id: string;
+  text: string;
+}
+
 const CourseGoals: React.FC = () => {
   const [deleting, setDeleting] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const courseId = useParams<CourseGoalsParams>().courseId;
+  const [editing, setEditing] = useState(false);
+  const [goal, setGoal] = useState<Goal | null>(null);
 
+  const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
+
+  const courseId = useParams<CourseGoalsParams>().courseId;
   const course = COURSE_DATA.find((c) => c.id === courseId);
 
   const deleteItemHandler = () => {
@@ -45,14 +55,34 @@ const CourseGoals: React.FC = () => {
     setToastMessage("Deleted Goal!");
   };
 
-  const editItemHandler = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const editItemHandler = (goalId: string) => {
+    const goal = course?.goals.find((g) => g.id === goalId);
+    slidingOptionsRef.current?.closeOpened();
+    if (!goal) {
+      return;
+    }
+
+    setEditing(true);
+    setGoal(goal);
   };
 
-  const addItemHandler = () => {};
+  const cancelEditItemHandler = () => {
+    setEditing(false);
+    setGoal(null);
+  };
+
+  const addItemHandler = () => {
+    setEditing(true);
+    setGoal(null);
+  };
 
   return (
     <Fragment>
+      <EditModal
+        open={editing}
+        onCancel={cancelEditItemHandler}
+        editedGoal={goal}
+      />
       <IonToast
         isOpen={!!toastMessage}
         message={toastMessage}
@@ -99,7 +129,7 @@ const CourseGoals: React.FC = () => {
           {course && (
             <IonList>
               {course.goals.map((goal) => (
-                <IonItemSliding key={goal.id}>
+                <IonItemSliding key={goal.id} ref={slidingOptionsRef}>
                   <IonItemOptions side="start">
                     <IonItemOption onClick={deleteItemHandler} color="danger">
                       <IonIcon slot="icon-only" icon={trash} />
@@ -109,7 +139,9 @@ const CourseGoals: React.FC = () => {
                     <IonLabel>{goal.text}</IonLabel>
                   </IonItem>
                   <IonItemOptions side="end">
-                    <IonItemOption onClick={editItemHandler}>
+                    <IonItemOption
+                      onClick={editItemHandler.bind(null, goal.id)}
+                    >
                       <IonIcon slot="icon-only" icon={create} />
                     </IonItemOption>
                   </IonItemOptions>
