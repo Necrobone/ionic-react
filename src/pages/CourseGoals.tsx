@@ -9,11 +9,6 @@ import {
   IonFabButton,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonLabel,
   IonList,
   IonPage,
   IonTitle,
@@ -23,8 +18,9 @@ import {
 } from "@ionic/react";
 import { useParams } from "react-router";
 import { COURSE_DATA } from "./Courses";
-import { add, addOutline, create, trash } from "ionicons/icons";
+import { add, addOutline } from "ionicons/icons";
 import EditModal from "../components/EditModal";
+import EditableGoalItem from "../components/EditableGoalItem";
 
 interface CourseGoalsParams {
   courseId: string;
@@ -129,23 +125,13 @@ const CourseGoals: React.FC = () => {
           {course && (
             <IonList>
               {course.goals.map((goal) => (
-                <IonItemSliding key={goal.id} ref={slidingOptionsRef}>
-                  <IonItemOptions side="start">
-                    <IonItemOption onClick={deleteItemHandler} color="danger">
-                      <IonIcon slot="icon-only" icon={trash} />
-                    </IonItemOption>
-                  </IonItemOptions>
-                  <IonItem>
-                    <IonLabel>{goal.text}</IonLabel>
-                  </IonItem>
-                  <IonItemOptions side="end">
-                    <IonItemOption
-                      onClick={editItemHandler.bind(null, goal.id)}
-                    >
-                      <IonIcon slot="icon-only" icon={create} />
-                    </IonItemOption>
-                  </IonItemOptions>
-                </IonItemSliding>
+                <EditableGoalItem
+                  key={goal.id}
+                  slidingRef={slidingOptionsRef}
+                  onDelete={deleteItemHandler}
+                  onEdit={editItemHandler.bind(null, goal.id)}
+                  text={goal.text}
+                />
               ))}
             </IonList>
           )}
