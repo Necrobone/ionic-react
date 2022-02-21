@@ -1,12 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonFab,
@@ -23,6 +18,7 @@ import {
 import { add, addOutline } from "ionicons/icons";
 import AddCourseModal from "../components/AddCourseModal";
 import CourseItem from "../components/CourseItem";
+import CoursesContext from "../store/CoursesContext";
 
 export const COURSE_DATA = [
   {
@@ -73,6 +69,8 @@ export const COURSE_DATA = [
 ];
 
 const Courses: React.FC = () => {
+  const context = useContext(CoursesContext);
+
   const [editing, setEditing] = useState(false);
 
   const cancelEditItemHandler = () => {
@@ -83,9 +81,17 @@ const Courses: React.FC = () => {
     setEditing(true);
   };
 
+  const addCourseHandler = (title: string, date: Date) => {
+    context.addCourse(title, date);
+  };
+
   return (
     <Fragment>
-      <AddCourseModal open={editing} onCancel={cancelEditItemHandler} />
+      <AddCourseModal
+        open={editing}
+        onCancel={cancelEditItemHandler}
+        onSave={addCourseHandler}
+      />
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -101,7 +107,7 @@ const Courses: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonGrid>
-            {COURSE_DATA.map((course) => (
+            {context.courses.map((course) => (
               <IonRow key={course.id}>
                 <IonCol size-md="4" offset-md="4">
                   <CourseItem course={course} />

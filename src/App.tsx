@@ -1,6 +1,7 @@
 import React from "react";
 import Filter from "./pages/Filter";
 import CourseTabs from "./pages/CourseTabs";
+import CoursesContextProvider from "./store/CoursesContextProvider";
 import SideDrawer from "./components/SideDrawer";
 
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
@@ -11,15 +12,14 @@ import { Redirect, Route } from "react-router";
 import "@ionic/react/css/core.css";
 /* Basic CSS for apps built with Ionic */
 import "@ionic/react/css/normalize.css";
-
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
 /* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
 import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
-import "@ionic/react/css/text-transformation.css";
 
+import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 /* Theme variables */
@@ -32,15 +32,17 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <SideDrawer />
-      <IonRouterOutlet id="main">
-        <Route path="/filter" exact>
-          <Filter />
-        </Route>
-        <Route path="/courses">
-          <CourseTabs />
-        </Route>
-        <Redirect path="/" to="/courses/all-goals" exact />
-      </IonRouterOutlet>
+      <CoursesContextProvider>
+        <IonRouterOutlet id="main">
+          <Route path="/filter" exact>
+            <Filter />
+          </Route>
+          <Route path="/courses">
+            <CourseTabs />
+          </Route>
+          <Redirect path="/" to="/courses/all-goals" exact />
+        </IonRouterOutlet>
+      </CoursesContextProvider>
     </IonReactRouter>
     <h2>This Works!</h2>
   </IonApp>

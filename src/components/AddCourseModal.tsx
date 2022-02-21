@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   IonButton,
   IonCol,
@@ -13,6 +13,7 @@ import {
   IonModal,
   IonPopover,
   IonRow,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -21,10 +22,31 @@ import { calendar } from "ionicons/icons";
 interface EditCourseModalProps {
   open: boolean;
   onCancel: () => void;
+  onSave: (title: string, date: Date) => void;
 }
 
 const AddCourseModal: React.FC<EditCourseModalProps> = (props) => {
-  const [selectedDate, setSelectedDate] = useState("Enrolment Date");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [error, setError] = useState("");
+  const titleRef = useRef<HTMLIonInputElement>(null);
+
+  const saveHandler = () => {
+    const enteredTitle = titleRef.current!.value;
+
+    if (
+      !enteredTitle ||
+      !selectedDate ||
+      enteredTitle.toString().trim().length === 0 ||
+      selectedDate.trim().length === 0
+    ) {
+      setError("Please enter a valid title and select a valid date");
+      return;
+    }
+
+    setError("");
+
+    props.onSave(enteredTitle.toString(), new Date(selectedDate));
+  };
 
   return (
     <IonModal isOpen={props.open}>
@@ -39,7 +61,7 @@ const AddCourseModal: React.FC<EditCourseModalProps> = (props) => {
             <IonCol>
               <IonItem>
                 <IonLabel position="floating">Course Title</IonLabel>
-                <IonInput type="text" />
+                <IonInput type="text" ref={titleRef} />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -65,6 +87,13 @@ const AddCourseModal: React.FC<EditCourseModalProps> = (props) => {
               </IonItem>
             </IonCol>
           </IonRow>
+          {error && (
+            <IonRow className="ion-text-center">
+              <IonCol>
+                <IonText color="danger">{error}</IonText>
+              </IonCol>
+            </IonRow>
+          )}
           <IonRow className="ion-text-center">
             <IonCol>
               <IonButton color="dark" fill="clear" onClick={props.onCancel}>
@@ -72,7 +101,7 @@ const AddCourseModal: React.FC<EditCourseModalProps> = (props) => {
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton color="secondary" expand="block">
+              <IonButton color="secondary" expand="block" onClick={saveHandler}>
                 Save
               </IonButton>
             </IonCol>
