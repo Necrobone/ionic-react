@@ -6,7 +6,7 @@ const CoursesContextProvider: React.FC = (props) => {
 
   const addCourse = (title: string, date: Date) => {
     const newCourse: Course = {
-      id: new Date().toString(),
+      id: Math.random().toString(),
       title,
       enrolled: date,
       goals: [],

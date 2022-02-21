@@ -83,6 +83,7 @@ const Courses: React.FC = () => {
 
   const addCourseHandler = (title: string, date: Date) => {
     context.addCourse(title, date);
+    setEditing(false);
   };
 
   return (
