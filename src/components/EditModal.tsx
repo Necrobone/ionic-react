@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   IonButton,
   IonCol,
@@ -10,6 +10,7 @@ import {
   IonLabel,
   IonModal,
   IonRow,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -17,6 +18,7 @@ import {
 interface EditModalProps {
   open: boolean;
   onCancel: () => void;
+  onSave: (text: string) => void;
   editedGoal: {
     id: string;
     text: string;
@@ -24,6 +26,20 @@ interface EditModalProps {
 }
 
 const EditModal: React.FC<EditModalProps> = (props) => {
+  const [error, setError] = useState("");
+  const textRef = useRef<HTMLIonInputElement>(null);
+
+  const saveHandler = () => {
+    const enteredText = textRef.current!.value;
+
+    if (!enteredText || enteredText.toString().trim().length === 0) {
+      setError("Please enter a valid text");
+      return;
+    }
+
+    props.onSave(enteredText.toString());
+  };
+
   return (
     <IonModal isOpen={props.open}>
       <IonHeader>
@@ -37,7 +53,11 @@ const EditModal: React.FC<EditModalProps> = (props) => {
             <IonCol>
               <IonItem>
                 <IonLabel position="floating">Your Goal</IonLabel>
-                <IonInput type="text" value={props.editedGoal?.text} />
+                <IonInput
+                  type="text"
+                  value={props.editedGoal?.text}
+                  ref={textRef}
+                />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -48,11 +68,20 @@ const EditModal: React.FC<EditModalProps> = (props) => {
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton color="secondary" expand="block">
+              <IonButton color="secondary" expand="block" onClick={saveHandler}>
                 Save
               </IonButton>
             </IonCol>
           </IonRow>
+          {error && (
+            <IonRow>
+              <IonCol>
+                <IonText color="danger">
+                  <p>{error}</p>
+                </IonText>
+              </IonCol>
+            </IonRow>
+          )}
         </IonGrid>
       </IonContent>
     </IonModal>

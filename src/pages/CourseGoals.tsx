@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useContext, useRef, useState } from "react";
 import {
   IonAlert,
   IonBackButton,
@@ -17,10 +17,10 @@ import {
   isPlatform,
 } from "@ionic/react";
 import { useParams } from "react-router";
-import { COURSE_DATA } from "./Courses";
 import { add, addOutline } from "ionicons/icons";
 import EditModal from "../components/EditModal";
 import EditableGoalItem from "../components/EditableGoalItem";
+import CoursesContext from "../store/CoursesContext";
 
 interface CourseGoalsParams {
   courseId: string;
@@ -32,6 +32,8 @@ interface Goal {
 }
 
 const CourseGoals: React.FC = () => {
+  const context = useContext(CoursesContext);
+
   const [deleting, setDeleting] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [editing, setEditing] = useState(false);
@@ -40,7 +42,7 @@ const CourseGoals: React.FC = () => {
   const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
 
   const courseId = useParams<CourseGoalsParams>().courseId;
-  const course = COURSE_DATA.find((c) => c.id === courseId);
+  const course = context.courses.find((c) => c.id === courseId);
 
   const deleteItemHandler = () => {
     setDeleting(true);
@@ -67,6 +69,11 @@ const CourseGoals: React.FC = () => {
     setGoal(null);
   };
 
+  const addGoalHandler = (text: string) => {
+    context.addGoal(courseId, text);
+    setEditing(false);
+  };
+
   const addItemHandler = () => {
     setEditing(true);
     setGoal(null);
@@ -77,6 +84,7 @@ const CourseGoals: React.FC = () => {
       <EditModal
         open={editing}
         onCancel={cancelEditItemHandler}
+        onSave={addGoalHandler}
         editedGoal={goal}
       />
       <IonToast
