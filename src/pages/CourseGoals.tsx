@@ -46,6 +46,7 @@ const CourseGoals: React.FC = () => {
   const course = context.courses.find((c) => c.id === courseId);
 
   const deleteItemHandler = (goalId: string) => {
+    setToastMessage("");
     setDeleting(true);
     selectedGoalIdRef.current = goalId;
   };
@@ -98,9 +99,6 @@ const CourseGoals: React.FC = () => {
         isOpen={!!toastMessage}
         message={toastMessage}
         duration={2000}
-        onDidDismiss={() => {
-          setToastMessage("");
-        }}
       />
       <IonAlert
         isOpen={deleting}

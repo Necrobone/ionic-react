@@ -10,6 +10,7 @@ const CoursesContextProvider: React.FC = (props) => {
       title,
       enrolled: date,
       goals: [],
+      included: true,
     };
 
     setCourses((courses) => {
@@ -78,9 +79,31 @@ const CoursesContextProvider: React.FC = (props) => {
     });
   };
 
+  const changeCourseFilter = (courseId: string, included: boolean) => {
+    setCourses((courses) => {
+      const updatedCourses = [...courses];
+      const updatedCourseIndex = updatedCourses.findIndex(
+        (course) => course.id === courseId
+      );
+
+      updatedCourses[updatedCourseIndex] = {
+        ...updatedCourses[updatedCourseIndex],
+        included,
+      };
+      return updatedCourses;
+    });
+  };
+
   return (
     <CoursesContext.Provider
-      value={{ courses, addGoal, addCourse, deleteGoal, updateGoal }}
+      value={{
+        courses,
+        addGoal,
+        addCourse,
+        deleteGoal,
+        updateGoal,
+        changeCourseFilter,
+      }}
     >
       {props.children}
     </CoursesContext.Provider>
