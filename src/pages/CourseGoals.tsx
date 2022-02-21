@@ -40,16 +40,19 @@ const CourseGoals: React.FC = () => {
   const [goal, setGoal] = useState<Goal | null>(null);
 
   const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
+  const selectedGoalIdRef = useRef<string | null>(null);
 
   const courseId = useParams<CourseGoalsParams>().courseId;
   const course = context.courses.find((c) => c.id === courseId);
 
-  const deleteItemHandler = () => {
+  const deleteItemHandler = (goalId: string) => {
     setDeleting(true);
+    selectedGoalIdRef.current = goalId;
   };
 
   const deleteGoalHandler = () => {
     setDeleting(false);
+    context.deleteGoal(courseId, selectedGoalIdRef.current!);
     setToastMessage("Deleted Goal!");
   };
 
@@ -69,8 +72,12 @@ const CourseGoals: React.FC = () => {
     setGoal(null);
   };
 
-  const addGoalHandler = (text: string) => {
-    context.addGoal(courseId, text);
+  const saveGoalHandler = (text: string) => {
+    if (goal) {
+      context.updateGoal(courseId, goal.id, text);
+    } else {
+      context.addGoal(courseId, text);
+    }
     setEditing(false);
   };
 
@@ -84,7 +91,7 @@ const CourseGoals: React.FC = () => {
       <EditModal
         open={editing}
         onCancel={cancelEditItemHandler}
-        onSave={addGoalHandler}
+        onSave={saveGoalHandler}
         editedGoal={goal}
       />
       <IonToast
@@ -136,7 +143,7 @@ const CourseGoals: React.FC = () => {
                 <EditableGoalItem
                   key={goal.id}
                   slidingRef={slidingOptionsRef}
-                  onDelete={deleteItemHandler}
+                  onDelete={deleteItemHandler.bind(null, goal.id)}
                   onEdit={editItemHandler.bind(null, goal.id)}
                   text={goal.text}
                 />
