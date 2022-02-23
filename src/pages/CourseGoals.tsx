@@ -87,6 +87,27 @@ const CourseGoals: React.FC = () => {
     setGoal(null);
   };
 
+  let content = <h2 className="ion-text-center">No goals found!</h2>;
+  if (!course) {
+    content = <h2 className="ion-text-center">No course found!</h2>;
+  }
+
+  if (course && course.goals.length > 0) {
+    content = (
+      <IonList>
+        {course.goals.map((goal) => (
+          <EditableGoalItem
+            key={goal.id}
+            slidingRef={slidingOptionsRef}
+            onDelete={deleteItemHandler.bind(null, goal.id)}
+            onEdit={editItemHandler.bind(null, goal.id)}
+            text={goal.text}
+          />
+        ))}
+      </IonList>
+    );
+  }
+
   return (
     <Fragment>
       <EditModal
@@ -135,19 +156,7 @@ const CourseGoals: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {course && (
-            <IonList>
-              {course.goals.map((goal) => (
-                <EditableGoalItem
-                  key={goal.id}
-                  slidingRef={slidingOptionsRef}
-                  onDelete={deleteItemHandler.bind(null, goal.id)}
-                  onEdit={editItemHandler.bind(null, goal.id)}
-                  text={goal.text}
-                />
-              ))}
-            </IonList>
-          )}
+          {content}
           {isPlatform("android") && (
             <IonFab horizontal="end" vertical="bottom" slot="fixed">
               <IonFabButton color="secondary" onClick={addItemHandler}>
