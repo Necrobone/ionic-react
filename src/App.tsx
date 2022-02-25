@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   IonApp,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
-  IonTabs,
   IonTabBar,
   IonTabButton,
+  IonTabs,
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -15,34 +15,41 @@ import { happy, sad } from "ionicons/icons";
 
 import GoodMemories from "./pages/GoodMemories";
 import BadMemories from "./pages/BadMemories";
-
 import NewMemory from "./pages/NewMemory";
+import MemoriesContext from "./data/MemoriesContext";
+
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 /* Basic CSS for apps built with Ionic */
 import "@ionic/react/css/normalize.css";
-
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
 /* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
 import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
-import "@ionic/react/css/text-transformation.css";
 
+import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./theme/theme.css";
-import MemoriesContextProvider from "./data/MemoriesContextProvider";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <MemoriesContextProvider>
+const App: React.FC = () => {
+  const context = useContext(MemoriesContext);
+
+  const { initContext } = context;
+
+  useEffect(() => {
+    initContext();
+  }, [initContext]);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/good-memories">
@@ -67,9 +74,9 @@ const App: React.FC = () => (
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-      </MemoriesContextProvider>
-    </IonReactRouter>
-  </IonApp>
-);
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

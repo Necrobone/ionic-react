@@ -32,7 +32,7 @@ const BadMemories: React.FC = () => {
       <IonContent>
         <h2>Bad Memories Page</h2>
         {!isPlatform("ios") && (
-          <IonFab vertical="bottom" horizontal="end">
+          <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton routerLink="/new-memory">
               <IonIcon icon={add} />
             </IonFabButton>

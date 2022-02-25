@@ -88,7 +88,12 @@ const NewMemory: React.FC = () => {
       directory: Directory.Data,
     });
 
-    context.addMemory(fileName, enteredTitle.toString(), chosenMemoryType);
+    context.addMemory(
+      fileName,
+      base64,
+      enteredTitle.toString(),
+      chosenMemoryType
+    );
     history.length > 0 ? history.goBack() : history.replace("/good-memories");
   };
 
