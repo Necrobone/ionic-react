@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   IonBackButton,
   IonButton,
@@ -24,6 +24,8 @@ import { camera } from "ionicons/icons";
 
 import "./NewMemory.css";
 import { base64FromPath } from "@capacitor-community/filesystem-react";
+import MemoriesContext from "../data/MemoriesContext";
+import { useHistory } from "react-router";
 
 interface Photo {
   path: string;
@@ -31,12 +33,16 @@ interface Photo {
 }
 
 const NewMemory: React.FC = () => {
+  const context = useContext(MemoriesContext);
+
   const [takenPhoto, setTakenPhoto] = useState<Photo>();
   const [chosenMemoryType, setChosenMemoryType] = useState<"good" | "bad">(
     "good"
   );
 
   const titleRef = useRef<HTMLIonInputElement>(null);
+
+  const history = useHistory();
 
   const selectMemoryTypeHandler = (event: CustomEvent) => {
     const selectedMemoryType = event.detail.value;
@@ -81,6 +87,9 @@ const NewMemory: React.FC = () => {
       data: base64,
       directory: Directory.Data,
     });
+
+    context.addMemory(fileName, enteredTitle.toString(), chosenMemoryType);
+    history.length > 0 ? history.goBack() : history.replace("/good-memories");
   };
 
   return (
