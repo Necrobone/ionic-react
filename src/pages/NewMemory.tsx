@@ -28,7 +28,7 @@ import MemoriesContext from "../data/MemoriesContext";
 import { useHistory } from "react-router";
 
 interface Photo {
-  path: string;
+  path: string | undefined;
   previewUrl: string;
 }
 
@@ -57,7 +57,7 @@ const NewMemory: React.FC = () => {
       width: 500,
     });
 
-    if (!photo || !photo.path || !photo.webPath) {
+    if (!photo || !photo.webPath) {
       return;
     }
 
