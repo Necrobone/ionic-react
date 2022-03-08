@@ -1,0 +1,6 @@
+{
+	"appId": "com.necrosoftware.memories",
+	"appName": "Memories",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
