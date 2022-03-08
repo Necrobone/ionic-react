@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonSpinner,
   IonTabBar,
   IonTabButton,
   IonTabs,
@@ -15,7 +16,6 @@ import { happy, sad } from "ionicons/icons";
 
 import GoodMemories from "./pages/GoodMemories";
 import BadMemories from "./pages/BadMemories";
-import NewMemory from "./pages/NewMemory";
 import MemoriesContext from "./data/MemoriesContext";
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,6 +36,8 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./theme/theme.css";
 
+const NewMemory = React.lazy(() => import("./pages/NewMemory"));
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -50,30 +52,32 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route path="/good-memories">
-              <GoodMemories />
-            </Route>
-            <Route path="/bad-memories">
-              <BadMemories />
-            </Route>
-            <Route path="/new-memory">
-              <NewMemory />
-            </Route>
-            <Redirect to="/good-memories" />
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton href="/good-memories" tab="good">
-              <IonIcon icon={happy} />
-              <IonLabel>Good Memories</IonLabel>
-            </IonTabButton>
-            <IonTabButton href="/bad-memories" tab="bad">
-              <IonIcon icon={sad} />
-              <IonLabel>Bad Memories</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+        <React.Suspense fallback={<IonSpinner />}>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route path="/good-memories">
+                <GoodMemories />
+              </Route>
+              <Route path="/bad-memories">
+                <BadMemories />
+              </Route>
+              <Route path="/new-memory">
+                <NewMemory />
+              </Route>
+              <Redirect to="/good-memories" />
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton href="/good-memories" tab="good">
+                <IonIcon icon={happy} />
+                <IonLabel>Good Memories</IonLabel>
+              </IonTabButton>
+              <IonTabButton href="/bad-memories" tab="bad">
+                <IonIcon icon={sad} />
+                <IonLabel>Bad Memories</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </React.Suspense>
       </IonReactRouter>
     </IonApp>
   );
