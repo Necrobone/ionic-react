@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import {
   IonButton,
   IonButtons,
@@ -16,8 +15,9 @@ import {
   isPlatform,
 } from "@ionic/react";
 import { add } from "ionicons/icons";
-import MemoriesContext from "../data/MemoriesContext";
+import React, { useContext } from "react";
 import MemoriesList from "../components/MemoriesList";
+import MemoriesContext from "../data/MemoriesContext";
 
 const BadMemories: React.FC = () => {
   const context = useContext(MemoriesContext);
