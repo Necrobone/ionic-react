@@ -1,5 +1,3 @@
-import { base64FromPath } from "@capacitor-community/filesystem-react";
-import { Directory, Filesystem } from "@capacitor/filesystem";
 import {
   IonBackButton,
   IonButton,
@@ -54,21 +52,7 @@ const NewMemory: React.FC = () => {
       return;
     }
 
-    const fileName = new Date().getTime() + ".jpeg";
-    const base64 = await base64FromPath(takenPhoto!.previewUrl);
-
-    await Filesystem.writeFile({
-      path: fileName,
-      data: base64,
-      directory: Directory.Data,
-    });
-
-    context.addMemory(
-      fileName,
-      base64,
-      enteredTitle.toString(),
-      chosenMemoryType
-    );
+    context.addMemory(takenPhoto, enteredTitle.toString(), chosenMemoryType);
     history.length > 0 ? history.goBack() : history.replace("/good-memories");
   };
 

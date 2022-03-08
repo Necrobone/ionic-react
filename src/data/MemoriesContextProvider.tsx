@@ -1,6 +1,8 @@
+import { base64FromPath } from "@capacitor-community/filesystem-react";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Storage } from "@capacitor/storage";
 import React, { useCallback, useEffect, useState } from "react";
+import { Photo } from "../components/ImagePicker";
 import MemoriesContext, { Memory, MemoryType } from "./MemoriesContext";
 
 const MemoriesContextProvider: React.FC = (props) => {
@@ -22,18 +24,22 @@ const MemoriesContextProvider: React.FC = (props) => {
     });
   }, [memories]);
 
-  const addMemory = (
-    path: string,
-    base64Data: string,
-    title: string,
-    type: MemoryType
-  ) => {
+  const addMemory = async (photo: Photo, title: string, type: MemoryType) => {
+    const fileName = new Date().getTime() + ".jpeg";
+    const base64 = await base64FromPath(photo!.previewUrl);
+
+    await Filesystem.writeFile({
+      path: fileName,
+      data: base64,
+      directory: Directory.Data,
+    });
+
     const newMemory: Memory = {
       id: Math.random().toString(),
       title,
       type,
-      imagePath: path,
-      base64Url: base64Data,
+      imagePath: fileName,
+      base64Url: base64,
     };
 
     setMemories((current) => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { Photo } from "../components/ImagePicker";
 
 export type MemoryType = "good" | "bad";
 
@@ -12,12 +13,7 @@ export interface Memory {
 
 const MemoriesContext = React.createContext<{
   memories: Memory[];
-  addMemory: (
-    path: string,
-    base64Data: string,
-    title: string,
-    type: MemoryType
-  ) => void;
+  addMemory: (photo: Photo, title: string, type: MemoryType) => void;
   initContext: () => void;
 }>({
   memories: [],
