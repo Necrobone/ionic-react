@@ -1,10 +1,12 @@
 import React from "react";
 
+export type MemoryType = "good" | "bad";
+
 export interface Memory {
   id: string;
   imagePath: string;
   title: string;
-  type: "good" | "bad";
+  type: MemoryType;
   base64Url: string;
 }
 
@@ -14,7 +16,7 @@ const MemoriesContext = React.createContext<{
     path: string,
     base64Data: string,
     title: string,
-    type: "good" | "bad"
+    type: MemoryType
   ) => void;
   initContext: () => void;
 }>({

@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
-import MemoriesContext, { Memory } from "./MemoriesContext";
-import { Storage } from "@capacitor/storage";
 import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Storage } from "@capacitor/storage";
+import React, { useCallback, useEffect, useState } from "react";
+import MemoriesContext, { Memory, MemoryType } from "./MemoriesContext";
 
 const MemoriesContextProvider: React.FC = (props) => {
   const [memories, setMemories] = useState<Memory[]>([]);
@@ -26,7 +26,7 @@ const MemoriesContextProvider: React.FC = (props) => {
     path: string,
     base64Data: string,
     title: string,
-    type: "good" | "bad"
+    type: MemoryType
   ) => {
     const newMemory: Memory = {
       id: Math.random().toString(),
